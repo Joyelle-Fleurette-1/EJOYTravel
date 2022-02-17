@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Joyelle-Fleurette-1/EJOYTravel-app.git"
+    "url": "git+https://github.com/Joyelle-Fleurette-1/EJTravel.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Joyelle-Fleurette-1/EJOYTravel-app/issues"
+    "url": "https://github.com/Joyelle-Fleurette-1/EJTravel/issues"
   },
-  "homepage": "https://github.com/Joyelle-Fleurette-1/EJOYTravel-app#readme",
+  "homepage": "https://github.com/Joyelle-Fleurette-1/EJTravel#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
