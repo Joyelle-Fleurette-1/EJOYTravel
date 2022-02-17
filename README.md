@@ -59,7 +59,7 @@
    4. create post booking route
 26. Implement Placebooking Action
    1. handle place booking button click
-   2. create place booking constants, action and reducer
+   2. create place booking constants, action and reducer 
 27. Create Booking Screen
    1. build booking api for /api/bookings/:id
 28.  create BookingScreen.js
