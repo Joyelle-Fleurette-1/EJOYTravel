@@ -5,19 +5,19 @@ export const prices = [
     max: 0,
   },
   {
-    name: `100 Fbu to 3000 Fbu`,
-    min: 100,
-    max: 3000,
+    name: `10000 Fbu to 40000 Fbu`,
+    min: 10000,
+    max: 40000,
   },
   {
-    name: `3000 Fbu to 5000 Fbu`,
-    min: 3000,
-    max: 5000,
+    name: `40000 Fbu to 80000 Fbu`,
+    min: 40000,
+    max: 80000,
   },
   {
-    name: `5000 Fbu to 10000 Fbu`,
-    min: 5000,
-    max: 10000,
+    name: `80000 Fbu to 120000 Fbu`,
+    min: 80000,
+    max: 120000,
   },
 ];
 export const ratings = [

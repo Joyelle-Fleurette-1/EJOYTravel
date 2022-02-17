@@ -1,30 +1,30 @@
 import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
-import { cartReducer } from './reducers/cartReducers';
+import { bookReducer } from './reducers/bookReducers';
 import {
-  orderCreateReducer,
-  orderDeleteReducer,
-  orderDeliverReducer,
-  orderDetailsReducer,
-  orderListReducer,
-  orderMineListReducer,
-} from './reducers/orderReducers';
+  bookingCreateReducer,
+  bookingDeleteReducer,
+  bookingCompleteReducer,
+  bookingDetailsReducer,
+  bookingListReducer,
+  bookingMineListReducer,
+} from './reducers/bookingReducers';
 import {
-  productCategoryListReducer,
-  productCreateReducer,
-  productDeleteReducer,
-  productDetailsReducer,
-  productListReducer,
-  productReviewCreateReducer,
-  productUpdateReducer,
-} from './reducers/productReducers';
+  hotelProvinceListReducer,
+  hotelCreateReducer,
+  hotelDeleteReducer,
+  hotelDetailsReducer,
+  hotelListReducer,
+  hotelReviewCreateReducer,
+  hotelUpdateReducer,
+} from './reducers/hotelReducers';
 import {
   userDeleteReducer,
   userDetailsReducer,
   userListReducer,
   userRegisterReducer,
   userSigninReducer,
-  userTopSellerListReducer,
+  userTopManagerListReducer,
   userUpdateProfileReducer,
   userUpdateReducer,
 } from './reducers/userReducers';
@@ -35,39 +35,41 @@ const initialState = {
       ? JSON.parse(localStorage.getItem('userInfo'))
       : null,
   },
-  cart: {
-    cartItems: localStorage.getItem('cartItems')
-      ? JSON.parse(localStorage.getItem('cartItems'))
+  book: {
+    bookRooms: localStorage.getItem('bookRooms')
+      ? JSON.parse(localStorage.getItem('bookRooms'))
       : [],
-    shippingAddress: localStorage.getItem('shippingAddress')
-      ? JSON.parse(localStorage.getItem('shippingAddress'))
+    hotelReservation: localStorage.getItem('hotelReservation')
+      ? JSON.parse(localStorage.getItem('hotelReservation'))
       : {},
-    paymentMethod: 'Payment on delivery',
+    moreInformation: localStorage.getItem('moreInformation')
+      ? JSON.parse(localStorage.getItem('moreInformation'))
+      : {},
   },
 };
 const reducer = combineReducers({
-  productList: productListReducer,
-  productDetails: productDetailsReducer,
-  cart: cartReducer,
+  hotelList: hotelListReducer,
+  hotelDetails: hotelDetailsReducer,
+  book: bookReducer,
   userSignin: userSigninReducer,
   userRegister: userRegisterReducer,
-  orderCreate: orderCreateReducer,
-  orderDetails: orderDetailsReducer,
-  orderMineList: orderMineListReducer,
+  bookingCreate: bookingCreateReducer,
+  bookingDetails: bookingDetailsReducer,
+  bookingMineList: bookingMineListReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
   userUpdate: userUpdateReducer,
-  productCreate: productCreateReducer,
-  productUpdate: productUpdateReducer,
-  productDelete: productDeleteReducer,
-  orderList: orderListReducer,
-  orderDelete: orderDeleteReducer,
-  orderDeliver: orderDeliverReducer,
+  hotelCreate: hotelCreateReducer,
+  hotelUpdate: hotelUpdateReducer,
+  hotelDelete: hotelDeleteReducer,
+  bookingList: bookingListReducer,
+  bookingDelete: bookingDeleteReducer,
+  bookingComplete: bookingCompleteReducer,
   userList: userListReducer,
   userDelete: userDeleteReducer,
-  userTopSellersList: userTopSellerListReducer,
-  productCategoryList: productCategoryListReducer,
-  productReviewCreate: productReviewCreateReducer,
+  userTopManagersList: userTopManagerListReducer,
+  hotelProvinceList: hotelProvinceListReducer,
+  hotelReviewCreate: hotelReviewCreateReducer,
 });
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

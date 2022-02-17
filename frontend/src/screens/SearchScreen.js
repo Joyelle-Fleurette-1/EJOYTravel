@@ -1,54 +1,54 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { listProducts } from '../actions/productActions';
+import { listHotels } from '../actions/hotelActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import Product from '../components/Product';
+import Hotel from '../components/Hotel';
 import Rating from '../components/Rating';
 import { prices, ratings } from '../utils';
 
 export default function SearchScreen(props) {
   const {
     name = 'all',
-    category = 'all',
+    province = 'all',
     min = 0,
     max = 0,
     rating = 0,
-    order = 'newest',
+    booking = 'newest',
   } = useParams();
   const dispatch = useDispatch();
-  const productList = useSelector((state) => state.productList);
-  const { loading, error, products } = productList;
+  const hotelList = useSelector((state) => state.hotelList);
+  const { loading, error, hotels } = hotelList;
 
-  const productCategoryList = useSelector((state) => state.productCategoryList);
+  const hotelProvinceList = useSelector((state) => state.hotelProvinceList);
   const {
-    loading: loadingCategories,
-    error: errorCategories,
-    categories,
-  } = productCategoryList;
+    loading: loadingProvinces,
+    error: errorProvinces,
+    provinces,
+  } = hotelProvinceList;
 
   useEffect(() => {
     dispatch(
-      listProducts({
+      listHotels({
         name: name !== 'all' ? name : '',
-        category: category !== 'all' ? category : '',
+        province: province !== 'all' ? province : '',
         min,
         max,
         rating,
-        order,
+        booking,
       })
     );
-  }, [category, dispatch, max, min, name, order, rating]);
+  }, [province, dispatch, max, min, name, booking, rating]);
 
   const getFilterUrl = (filter) => {
-    const filterCategory = filter.category || category;
+    const filterProvince = filter.province || province;
     const filterName = filter.name || name;
     const filterRating = filter.rating || rating;
-    const sortOrder = filter.order || order;
+    const sortbooking = filter.booking || booking;
     const filterMin = filter.min ? filter.min : filter.min === 0 ? 0 : min;
     const filterMax = filter.max ? filter.max : filter.max === 0 ? 0 : max;
-    return `/search/category/${filterCategory}/name/${filterName}/min/${filterMin}/max/${filterMax}/rating/${filterRating}/order/${sortOrder}`;
+    return `/search/province/${filterProvince}/name/${filterName}/min/${filterMin}/max/${filterMax}/rating/${filterRating}/booking/${sortbooking}`;
   };
   return (
     <div>
@@ -58,17 +58,16 @@ export default function SearchScreen(props) {
         ) : error ? (
           <MessageBox variant="danger">{error}</MessageBox>
         ) : (
-          <div>{products.length} Results</div>
+          <div>{hotels.length} Results</div>
         )}
         <div>
           Sort by{' '}
           <select
-            value={order}
+            value={booking}
             onChange={(e) => {
-              props.history.push(getFilterUrl({ order: e.target.value }));
+              props.history.push(getFilterUrl({ booking: e.target.value }));
             }}
           >
-            <option value="newest">Newest Arrivals</option>
             <option value="lowest">Price: Low to High</option>
             <option value="highest">Price: High to Low</option>
             <option value="toprated">Avg. Customer Reviews</option>
@@ -79,25 +78,25 @@ export default function SearchScreen(props) {
         <div className="col-1">
           <h3>Department</h3>
           <div>
-            {loadingCategories ? (
+            {loadingProvinces ? (
               <LoadingBox></LoadingBox>
-            ) : errorCategories ? (
-              <MessageBox variant="danger">{errorCategories}</MessageBox>
+            ) : errorProvinces ? (
+              <MessageBox variant="danger">{errorProvinces}</MessageBox>
             ) : (
               <ul>
                 <li>
                   <Link
-                    className={'all' === category ? 'active' : ''}
-                    to={getFilterUrl({ category: 'all' })}
+                    className={'all' === province ? 'active' : ''}
+                    to={getFilterUrl({ province: 'all' })}
                   >
                     Any
                   </Link>
                 </li>
-                {categories.map((c) => (
+                {provinces.map((c) => (
                   <li key={c}>
                     <Link
-                      className={c === category ? 'active' : ''}
-                      to={getFilterUrl({ category: c })}
+                      className={c === province ? 'active' : ''}
+                      to={getFilterUrl({ province: c })}
                     >
                       {c}
                     </Link>
@@ -146,12 +145,12 @@ export default function SearchScreen(props) {
             <MessageBox variant="danger">{error}</MessageBox>
           ) : (
             <>
-              {products.length === 0 && (
-                <MessageBox>No Product Found</MessageBox>
+              {hotels.length === 0 && (
+                <MessageBox>No hotel Found</MessageBox>
               )}
               <div className="row center">
-                {products.map((product) => (
-                  <Product key={product._id} product={product}></Product>
+                {hotels.map((hotel) => (
+                  <Hotel key={hotel._id} hotel={hotel}></Hotel>
                 ))}
               </div>
             </>

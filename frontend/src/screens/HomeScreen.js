@@ -1,34 +1,55 @@
 import React, { useEffect } from 'react';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import Product from '../components/Product';
+import Hotel from '../components/Hotel';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { useDispatch, useSelector } from 'react-redux';
-import { listProducts } from '../actions/productActions';
-import { listTopSellers } from '../actions/userActions';
+import { listHotels } from '../actions/hotelActions';
+import { listTopManagers } from '../actions/userActions';
 
 export default function HomeScreen() {
   const dispatch = useDispatch();
-  const productList = useSelector((state) => state.productList);
-  const { loading, error, products } = productList;
+  const hotelList = useSelector((state) => state.hotelList);
+  const { loading, error, hotels } = hotelList;
 
   useEffect(() => {
-    dispatch(listProducts({}));
-    dispatch(listTopSellers());
+    dispatch(listHotels({}));
+    dispatch(listTopManagers());
   }, [dispatch]);
   return (
     <div>
-      <h2>Welcome on EJOY website. Buy your cups with us. We offer the best.</h2>
+      <div className= "stage">
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+      <div className= "layer"></div>
+    </div>
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <>
-          {products.length === 0 && <MessageBox>No Product Found</MessageBox>}
+          {hotels.length === 0 && <MessageBox>No hotel Found</MessageBox>}
           <div className="row center">
-            {products.map((product) => (
-              <Product key={product._id} product={product}></Product>
+            {hotels.map((hotel) => (
+              <Hotel key={hotel._id} hotel={hotel}></Hotel>
             ))}
           </div>
         </>

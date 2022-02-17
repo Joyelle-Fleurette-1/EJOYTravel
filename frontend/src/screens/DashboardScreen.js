@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Chart from 'react-google-charts';
-import { summaryOrder } from '../actions/orderActions';
+import { summaryBooking } from '../actions/bookingActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 
 export default function DashboardScreen() {
-  const orderSummary = useSelector((state) => state.orderSummary);
-  const { loading, summary, error } = orderSummary;
+  const bookingSummary = useSelector((state) => state.bookingSummary);
+  const { loading, summary, error } = bookingSummary;
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(summaryOrder());
+    dispatch(summaryBooking());
   }, [dispatch]);
   return (
     <div>
@@ -35,11 +35,11 @@ export default function DashboardScreen() {
             <li>
               <div className="summary-title color2">
                 <span>
-                  <i className="fa fa-shopping-cart" /> Orders
+                  <i className="fa fa-shopping-book" /> bookings
                 </span>
               </div>
               <div className="summary-body">
-                {summary.orders[0] ? summary.orders[0].numOrders : 0}
+                {summary.bookings[0] ? summary.bookings[0].numBookings : 0}
               </div>
             </li>
             <li>
@@ -50,8 +50,8 @@ export default function DashboardScreen() {
               </div>
               <div className="summary-body">
                 
-                {summary.orders[0]
-                  ? summary.orders[0].totalSales.toFixed(2)
+                {summary.bookings[0]
+                  ? summary.bookings[0].totalSales.toFixed(2)
                   : 0} Fbu
               </div>
             </li>
@@ -59,7 +59,7 @@ export default function DashboardScreen() {
           <div>
             <div>
               <h2>Sales</h2>
-              {summary.dailyOrders.length === 0 ? (
+              {summary.dailyBookings.length === 0 ? (
                 <MessageBox>No Sale</MessageBox>
               ) : (
                 <Chart
@@ -69,16 +69,16 @@ export default function DashboardScreen() {
                   loader={<div>Loading Chart</div>}
                   data={[
                     ['Date', 'Sales'],
-                    ...summary.dailyOrders.map((x) => [x._id, x.sales]),
+                    ...summary.dailyBookings.map((x) => [x._id, x.sales]),
                   ]}
                 ></Chart>
               )}
             </div>
           </div>
           <div>
-            <h2>Categories</h2>
-            {summary.productCategories.length === 0 ? (
-              <MessageBox>No Category</MessageBox>
+            <h2>Provinces</h2>
+            {summary.productProvinces.length === 0 ? (
+              <MessageBox>No Province</MessageBox>
             ) : (
               <Chart
                 width="100%"
@@ -86,8 +86,8 @@ export default function DashboardScreen() {
                 chartType="PieChart"
                 loader={<div>Loading Chart</div>}
                 data={[
-                  ['Category', 'Products'],
-                  ...summary.productCategories.map((x) => [x._id, x.count]),
+                  ['Province', 'Products'],
+                  ...summary.productProvinces.map((x) => [x._id, x.count]),
                 ]}
               />
             )}

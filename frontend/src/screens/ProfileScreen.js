@@ -10,9 +10,9 @@ export default function ProfileScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [sellerName, setSellerName] = useState('');
-  const [sellerLogo, setSellerLogo] = useState('');
-  const [sellerDescription, setSellerDescription] = useState('');
+  const [managerName, setManagerName] = useState('');
+  const [managerLogo, setManagerLogo] = useState('');
+  const [managerDescription, setManagerDescription] = useState('');
 
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
@@ -33,10 +33,10 @@ export default function ProfileScreen() {
   } else {
     setName(user.name);
     setEmail(user.email);
-    if (user.seller) {
-      setSellerName(user.seller.name);
-      setSellerLogo(user.seller.logo);
-      setSellerDescription(user.seller.description);
+    if (user.manager) {
+      setManagerName(user.manager.name);
+      setManagerLogo(user.manager.logo);
+      setManagerDescription(user.manager.description);
     }
   }
 }, [dispatch, userInfo._id, user]);
@@ -53,9 +53,9 @@ export default function ProfileScreen() {
           name,
           email,
           password,
-          sellerName,
-          sellerLogo,
-          sellerDescription,
+          managerName,
+          managerLogo,
+          managerDescription,
         })
       );
     }
@@ -119,37 +119,37 @@ export default function ProfileScreen() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               ></input>
             </div>
-            {user.isSeller && (
+            {user.isManager && (
               <>
-                <h2>Seller</h2>
+                <h2>manager</h2>
                 <div>
-                  <label htmlFor="sellerName">Seller Name</label>
+                  <label htmlFor="managerName">manager Name</label>
                   <input
-                    id="sellerName"
+                    id="managerName"
                     type="text"
-                    placeholder="Enter Seller Name"
-                    value={sellerName}
-                    onChange={(e) => setSellerName(e.target.value)}
+                    placeholder="Enter manager Name"
+                    value={managerName}
+                    onChange={(e) => setManagerName(e.target.value)}
                   ></input>
                 </div>
                 <div>
-                  <label htmlFor="sellerLogo">Seller Logo</label>
+                  <label htmlFor="managerLogo">manager Logo</label>
                   <input
-                    id="sellerLogo"
+                    id="managerLogo"
                     type="text"
-                    placeholder="Enter Seller Logo"
-                    value={sellerLogo}
-                    onChange={(e) => setSellerLogo(e.target.value)}
+                    placeholder="Enter manager Logo"
+                    value={managerLogo}
+                    onChange={(e) => setManagerLogo(e.target.value)}
                   ></input>
                 </div>
                 <div>
-                  <label htmlFor="sellerDescription">Seller Description</label>
+                  <label htmlFor="managerDescription">manager Description</label>
                   <input
-                    id="sellerDescription"
+                    id="managerDescription"
                     type="text"
-                    placeholder="Enter Seller Description"
-                    value={sellerDescription}
-                    onChange={(e) => setSellerDescription(e.target.value)}
+                    placeholder="Enter manager Description"
+                    value={managerDescription}
+                    onChange={(e) => setManagerDescription(e.target.value)}
                   ></input>
                 </div>
               </>

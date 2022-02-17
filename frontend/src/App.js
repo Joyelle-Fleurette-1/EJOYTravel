@@ -4,34 +4,35 @@ import { BrowserRouter, Link, Route } from 'react-router-dom';
 import { signout } from './actions/userActions';
 import AdminRoute from './components/AdminRoute';
 import PrivateRoute from './components/PrivateRoute';
-import CartScreen from './screens/CartScreen';
+import BookScreen from './screens/BookScreen';
 import HomeScreen from './screens/HomeScreen';
-import OrderHistoryScreen from './screens/OrderHistoryScreen';
-import OrderScreen from './screens/OrderScreen';
-import PaymentMethodScreen from './screens/PaymentMethodScreen';
-import PlaceOrderScreen from './screens/PlaceOrderScreen';
-import ProductListScreen from './screens/ProductListScreen';
-import ProductScreen from './screens/ProductScreen';
+import BookingHistoryScreen from './screens/BookingHistoryScreen';
+import BookingScreen from './screens/BookingScreen';
+import MoreInformationScreen from './screens/MoreInformationScreen';
+import PlaceBookingScreen from './screens/PlaceBookingScreen';
+import HotelListScreen from './screens/HotelListScreen';
+import HotelScreen from './screens/HotelScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import RegisterScreen from './screens/RegisterScreen';
-import ShippingAddressScreen from './screens/ShippingAddressScreen';
+import HotelReservationScreen from './screens/HotelReservationScreen';
 import SigninScreen from './screens/SigninScreen';
-import ProductEditScreen from './screens/ProductEditScreen';
-import OrderListScreen from './screens/OrderListScreen';
+import HotelEditScreen from './screens/HotelEditScreen';
+import BookingListScreen from './screens/BookingListScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
-import SellerRoute from './components/SellerRoute';
-import SellerScreen from './screens/SellerScreen';
+import ManagerRoute from './components/ManagerRoute';
+import ManagerScreen from './screens/ManagerScreen';
+import AboutUs from './screens/AboutUs';
 import SearchBox from './components/SearchBox';
 import SearchScreen from './screens/SearchScreen';
-import { listProductCategories } from './actions/productActions';
+import { listHotelProvinces } from './actions/hotelActions';
 import LoadingBox from './components/LoadingBox';
 import MessageBox from './components/MessageBox';
 
 function App() {
-  const cart = useSelector((state) => state.cart);
+  const book = useSelector((state) => state.book);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
-  const { cartItems } = cart;
+  const { bookRooms } = book;
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
   const dispatch = useDispatch();
@@ -39,14 +40,14 @@ function App() {
     dispatch(signout());
   };
 
-  const productCategoryList = useSelector((state) => state.productCategoryList);
+  const hotelProvinceList = useSelector((state) => state.hotelProvinceList);
   const {
-    loading: loadingCategories,
-    error: errorCategories,
-    categories,
-  } = productCategoryList;
+    loading: loadingProvinces,
+    error: errorProvinces,
+    provinces,
+  } = hotelProvinceList;
   useEffect(() => {
-    dispatch(listProductCategories());
+    dispatch(listHotelProvinces());
   }, [dispatch]);
 
   return (
@@ -62,7 +63,7 @@ function App() {
               <i className="fa fa-bars"></i>
             </button>
             <Link className="brand" to="/">
-              EJOY
+              EJOY Travel
             </Link>
           </div>
           <div>
@@ -72,12 +73,16 @@ function App() {
               )}
             ></Route>
           </div>
+          
           <div>
-            <Link to="/cart">
-              Cart
-              {cartItems.length > 0 && (
-                <span className="badge">{cartItems.length}</span>
+            <Link to="/book">
+              Book
+              {bookRooms.length > 0 && (
+                <span className="badge">{bookRooms.length}</span>
               )}
+            </Link>
+            <Link to="aboutus">
+              About Us
             </Link>
             {userInfo ? (
               <div className="dropdown">
@@ -89,7 +94,7 @@ function App() {
                     <Link to="/profile">User Profile</Link>
                   </li>
                 <li>
-                    <Link to="/orderhistory">Order History</Link>
+                    <Link to="/bookinghistory">Booking History</Link>
                   </li>
                   <li>
                     <Link to="#signout" onClick={signoutHandler}>
@@ -101,17 +106,17 @@ function App() {
             ) : (
               <Link to="/signin">Sign In</Link>
             )}
-            {userInfo && userInfo.isSeller && (
+            {userInfo && userInfo.isManager && (
               <div className="dropdown">
                 <Link to="#admin">
-                  Seller <i className="fa fa-caret-down"></i>
+                  Manager <i className="fa fa-caret-down"></i>
                 </Link>
                 <ul className="dropdown-content">
                   <li>
-                    <Link to="/productlist/seller">Products</Link>
+                    <Link to="/hotellist/manager">Hotels</Link>
                   </li>
                   <li>
-                    <Link to="/orderlist/seller">Orders</Link>
+                    <Link to="/bookinglist/manager">Bookings</Link>
                   </li>
                 </ul>
               </div>
@@ -126,10 +131,10 @@ function App() {
                     <Link to="/dashboard">Dashboard</Link>
                   </li>
                   <li>
-                    <Link to="/productlist">Products</Link>
+                    <Link to="/hotellist">hotels</Link>
                   </li>
                   <li>
-                    <Link to="/orderlist">Orders</Link>
+                    <Link to="/bookinglist">bookings</Link>
                   </li>
                   <li>
                     <Link to="/userlist">Users</Link>
@@ -141,9 +146,9 @@ function App() {
           </div>
         </header>
         <aside className={sidebarIsOpen ? 'open' : ''}>
-          <ul className="categories">
+          <ul className="provinces">
             <li>
-              <strong>Categories</strong>
+              <strong>Provinces</strong>
               <button
                 onClick={() => setSidebarIsOpen(false)}
                 className="close-sidebar"
@@ -152,15 +157,15 @@ function App() {
                 <i className="fa fa-close"></i>
               </button>
             </li>
-            {loadingCategories ? (
+            {loadingProvinces ? (
               <LoadingBox></LoadingBox>
-            ) : errorCategories ? (
-              <MessageBox variant="danger">{errorCategories}</MessageBox>
+            ) : errorProvinces ? (
+              <MessageBox variant="danger">{errorProvinces}</MessageBox>
             ) : (
-              categories.map((c) => (
+              provinces.map((c) => (
                 <li key={c}>
                   <Link
-                    to={`/search/category/${c}`}
+                    to={`/search/province/${c}`}
                     onClick={() => setSidebarIsOpen(false)}
                   >
                     {c}
@@ -171,29 +176,55 @@ function App() {
           </ul>
         </aside>
         <main>
-          <Route path="/seller/:id" component={SellerScreen}></Route>
-          <Route path="/cart/:id?" component={CartScreen}></Route>
-          <Route path="/product/:id" component={ProductScreen} exact></Route>
-          <Route path="/product/:id/edit" component={ProductEditScreen} exact></Route>
+          <Route path="/manager/:id" component={ManagerScreen}></Route>
+          <Route path="/aboutus" component={AboutUs}></Route>
+          <Route path="/book/:id?" component={BookScreen}></Route>
+          <Route path="/hotel/:id" component={HotelScreen} exact></Route>
+          <Route path="/hotel/:id/edit" component={HotelEditScreen} exact></Route>
           <Route path="/signin" component={SigninScreen}></Route>
           <Route path="/register" component={RegisterScreen}></Route>
-          <Route path="/shipping" component={ShippingAddressScreen}></Route>
-          <Route path="/payment" component={PaymentMethodScreen}></Route>
-          <Route path="/placeorder" component={PlaceOrderScreen}></Route>
-          <Route path="/order/:id" component={OrderScreen}></Route>
-          <Route path="/orderhistory" component={OrderHistoryScreen}></Route>
-          <Route path="/search/category/:category" component={SearchScreen} exact></Route>
-          <Route path="/search/category/:category/name/:name" component={SearchScreen} exact></Route>
+          <Route path="/reservation" component={HotelReservationScreen}></Route>
+          <Route path="/moreinfo" component={MoreInformationScreen}></Route>
+          <Route path="/placebooking" component={PlaceBookingScreen}></Route>
+          <Route path="/booking/:id" component={BookingScreen}></Route>
+          <Route path="/bookinghistory" component={BookingHistoryScreen}></Route>
+          <Route path="/search/province/:province" component={SearchScreen} exact></Route>
+          <Route path="/search/province/:province/name/:name" component={SearchScreen} exact></Route>
           <Route path="/search/name/:name?" component={SearchScreen} exact></Route>
-          <Route path="/search/category/:category/name/:name/min/:min/max/:max/rating/:rating/order/:order" component={SearchScreen} exact></Route>
+          <Route path="/search/province/:province/name/:name/min/:min/max/:max/rating/:rating/booking/:booking" component={SearchScreen} exact></Route>
           <PrivateRoute path="/profile" component={ProfileScreen}></PrivateRoute>
-          <AdminRoute path="/productlist" component={ProductListScreen} exact></AdminRoute>
-          <AdminRoute path="/orderlist" component={OrderListScreen} exact></AdminRoute>
+          <AdminRoute path="/hotellist" component={HotelListScreen} exact></AdminRoute>
+          <AdminRoute path="/bookinglist" component={BookingListScreen} exact></AdminRoute>
           <AdminRoute path="/userlist" component={UserListScreen}></AdminRoute>
-          <SellerRoute path="/productlist/seller" component={ProductListScreen}></SellerRoute>
-          <SellerRoute path="/orderlist/seller" component={OrderListScreen}></SellerRoute>
+          <ManagerRoute path="/hotellist/manager" component={HotelListScreen}></ManagerRoute>
+          <ManagerRoute path="/bookinglist/manager" component={BookingListScreen}></ManagerRoute>
           <AdminRoute path="/user/:id/edit" component={UserEditScreen}></AdminRoute>
+          <h1>Hotels</h1>
           <Route path="/" component={HomeScreen} exact></Route>
+          <hr></hr>
+          <hr></hr>
+          
+
+          <ul className="provinces">
+            <li>
+            <h1>Places to Visit</h1>
+            </li>
+            {loadingProvinces ? (
+              <LoadingBox></LoadingBox>
+            ) : errorProvinces ? (
+              <MessageBox variant="danger">{errorProvinces}</MessageBox>
+            ) : (
+              provinces.map((c) => (
+                <li key={c}>
+                  <Link
+                    to={`/search/province/${c}`}
+                  >
+                    {c}
+                  </Link>
+                </li>
+              ))
+            )}
+          </ul>
         </main>
         <footer className="row center">
           <div> All rights reserved</div>
